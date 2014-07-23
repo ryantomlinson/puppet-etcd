@@ -52,7 +52,8 @@ class etcd (
   $peer_bind_addr          = $etcd::params::etcd_peer_bind_addr,
   $peer_ca_file            = $etcd::params::etcd_peer_ca_file,
   $peer_cert_File          = $etcd::params::etcd_peer_cert_File,
-  $peer_key_file           = $etcd::params::etcd_peer_key_file) inherits etcd::params {
+  $peer_key_file           = $etcd::params::etcd_peer_key_file,
+  $install_from_source     = $etcd::params::etcd_install_from_source) inherits etcd::params {
 
   # Discovery settings
   validate_bool($discovery)
@@ -72,6 +73,7 @@ class etcd (
   validate_bool($verbose)
   validate_bool($very_verbose)
   validate_bool($manage_data_dir)
+  validate_bool($install_from_source)
 
   anchor { 'etcd::begin': } ->
   class { '::etcd::install': } ->
