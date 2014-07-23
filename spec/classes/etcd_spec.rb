@@ -220,10 +220,10 @@ describe 'etcd', :type => :class do
         should contain_file('/etc/etcd/etcd.conf').with_content(/election_timeout\s*= 400/)
         should contain_file('/etc/etcd/etcd.conf').with_content(/heartbeat_interval\s*= 60/)
       }
-      it { 
+      it {
         # Ensure that the upstart script is correctly populated
         should contain_file('etcd-servicefile').with_content(/\/bin\/etcd/)
-        should contain_file('etcd-servicefile').with_content(/\/test\/log_dir\/etcd.out/) 
+        should contain_file('etcd-servicefile').with_content(/\/test\/log_dir\/etcd.out/)
       }
     end
   end

@@ -19,6 +19,7 @@ class etcd (
   $service_enable          = $etcd::params::etcd_service_enable,
   $package_ensure          = $etcd::params::etcd_package_ensure,
   $package_name            = $etcd::params::etcd_package_name,
+  $package_source          = $etcd::params::etcd_package_source,
   $binary_location         = $etcd::params::etcd_binary_location,
   $manage_user             = $etcd::params::etcd_manage_user,
   $user                    = $etcd::params::etcd_user,
@@ -52,8 +53,7 @@ class etcd (
   $peer_bind_addr          = $etcd::params::etcd_peer_bind_addr,
   $peer_ca_file            = $etcd::params::etcd_peer_ca_file,
   $peer_cert_File          = $etcd::params::etcd_peer_cert_File,
-  $peer_key_file           = $etcd::params::etcd_peer_key_file,
-  $install_from_source     = $etcd::params::etcd_install_from_source) inherits etcd::params {
+  $peer_key_file           = $etcd::params::etcd_peer_key_file) inherits etcd::params {
 
   # Discovery settings
   validate_bool($discovery)

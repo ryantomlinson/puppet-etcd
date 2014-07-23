@@ -43,48 +43,10 @@ class etcd::install {
     User[$etcd::user] -> File[$etcd::log_dir]
   }
 
-  if $etcd::install_from_source {
-    exec { 'download_go':
-      command => 'curl -s https://storage.googleapis.com/golang/go1.3.src.tar.gz | tar -v -C /usr/local -xz',
-      path    => '/bin:/usr/bin',
-      unless  => ['test -e /usr/local/go'],
-    } ->
-
-    exec { 'build_go':
-      command => '/usr/local/go/src/make.bash --no-clean 2>&1',
-      path    => '/bin:/usr/bin:/usr/local/go/bin',
-      cwd     => '/usr/local/go/src',
-      unless  => ['test -e /usr/local/go/bin'],
-    } ->
-
-    exec { 'download_etcd':
-      command => 'wget https://github.com/coreos/etcd/archive/v0.4.5.tar.gz && tar -xvf v0.4.5.tar.gz',
-      path    => '/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin',
-      cwd     => '/opt',
-      unless  => ['test -e /opt/etcd-0.4.5'],
-    } ->
-
-    exec { 'build_etcd':
-      command => '/bin/sh /opt/etcd-0.4.5/build',
-      cwd     => '/opt/etcd-0.4.5',
-      path    => '/bin:/usr/bin:/usr/local/bin:/usr/local/go/bin',
-      unless  => ['test -e /opt/etcd-0.4.5/bin'],
-    } ->
-
-    exec { 'install_etcd':
-      command => 'cp /opt/etcd-0.4.5/bin/etcd ' + $etcd::binary_location,
-      cwd     => '/opt/etcd-0.4.5',
-      path    => '/bin',
-      unless  => ['test -e /opt/etcd-0.4.5/bin'],
-    }
-  }
-  else {
-
-    # Install the required package
-    package { 'etcd':
-      ensure => $etcd::package_ensure,
-      name   => $etcd::package_name,
-    }
-
+  # Install the required package
+  package { 'etcd':
+    ensure => $etcd::package_ensure,
+    name   => $etcd::package_name,
+    source => $etcd::package_source,
   }
 }
