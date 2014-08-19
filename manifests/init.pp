@@ -73,7 +73,6 @@ class etcd (
   validate_bool($verbose)
   validate_bool($very_verbose)
   validate_bool($manage_data_dir)
-  validate_bool($install_from_source)
 
   anchor { 'etcd::begin': } ->
   class { '::etcd::install': } ->
